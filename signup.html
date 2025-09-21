@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - OTF</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .form-container {
+      background: #222;
+      padding: 30px;
+      border-radius: 10px;
+      width: 300px;
+      text-align: center;
+    }
+    h2 {
+      color: #ffd700;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 5px;
+    }
+    button {
+      background: #ffd700;
+      border: none;
+      padding: 10px;
+      width: 100%;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    button:hover {
+      background: #e6c200;
+    }
+    a {
+      color: #ffd700;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2>Sign In</h2>
+    <input type="email" placeholder="Email" required>
+    <input type="password" placeholder="Password" required>
+    <button>Sign In</button>
+    <p>Don't have an account? 
+      <!-- FIXED: Use the correct path to signup.html -->
+      <a href="signup.html">Sign Up</a>
+    </p><script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Get DOM elements
+  const usernameInput = document.getElementById('username');
+  const emailInput = document.getElementById('email');
+  const passwordInput = document.getElementById('password');
+  const confirmPasswordInput = document.getElementById('confirm-password');
+  const togglePassword = document.getElementById('toggle-password');
+  const toggleConfirmPassword = document.getElementById('toggle-confirm-password');
+  const termsCheckbox = document.getElementById('terms');
+  const registerBtn = document.getElementById('register-btn');
+  
+  // Error elements
+  const usernameError = document.getElementById('username-error');
+  const emailError = document.getElementById('email-error');
+  const passwordError = document.getElementById('password-error');
+  const confirmPasswordError = document.getElementById('confirm-password-error');
+  const termsError = document.getElementById('terms-error');
+  const registerError = document.getElementById('register-error');
+  const registerSuccess = document.getElementById('register-success');
+  
+  // Toggle password visibility
+  togglePassword.addEventListener('click', function() {
+    if (passwordInput.type === 'password') {
+      passwordInput.type = 'text';
+      togglePassword.textContent = '🔒';
+    } else {
+      passwordInput.type = 'password';
+      togglePassword.textContent = '👁️';
+    }
+  });
+  
+  // Toggle confirm password visibility
+  toggleConfirmPassword.addEventListener('click', function() {
+    if (confirmPasswordInput.type === 'password') {
+      confirmPasswordInput.type = 'text';
+      toggleConfirmPassword.textContent = '🔒';
+    } else {
+      confirmPasswordInput.type = 'password';
+      toggleConfirmPassword.textContent = '👁️';
+    }
+  });
+  
+  // Validate username
+  function isValidUsername(username) {
+    return username.length >= 3;
+  }
+  
+  // Validate email format
+  function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
+  
+  // Validate password for signup (stronger requirements)
+  function isValidPassword(password) {
+    // At least 8 characters, one number, one special character
+    const passwordRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/;
+    return passwordRegex.test(password);
+  }
+  
+  // Check if passwords match
+  function passwordsMatch(password, confirmPassword) {
+    return password === confirmPassword;
+  }
+  
+  // Handle registration process
+  registerBtn.addEventListener('click', function() {
+    // Reset error messages
+    usernameError.style.display = 'none';
+    emailError.style.display = 'none';
+    passwordError.style.display = 'none';
+    confirmPasswordError.style.display = 'none';
+    termsError.style.display = 'none';
+    registerError.style.display = 'none';
+    registerSuccess.style.display = 'none';
+    
+    // Get input values
+    const username = usernameInput.value.trim();
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
+    const confirmPassword = confirmPasswordInput.value;
+    const termsAccepted = termsCheckbox.checked;
+    
+    // Validate inputs
+    let isValid = true;
+    
+    if (!isValidUsername(username)) {
+      usernameError.style.display = 'block';
+      isValid = false;
+    }
+    
+    if (!isValidEmail(email)) {
+      emailError.style.display = 'block';
+      isValid = false;
+    }
+    
+    if (!isValidPassword(password)) {
+      passwordError.style.display = 'block';
+      isValid = false;
+    }
+    
+    if (!passwordsMatch(password, confirmPassword)) {
+      confirmPasswordError.style.display = 'block';
+      isValid = false;
+    }
+    
+    if (!termsAccepted) {
+      termsError.style.display = 'block';
+      isValid = false;
+    }
+    
+    if (!isValid) {
+      registerError.style.display = 'block';
+      return;
+    }
+    
+    // Simulate successful registration
+    registerSuccess.style.display = 'block';
+    registerBtn.textContent = 'Creating Account...';
+    registerBtn.disabled = true;
+    
+    // Simulate redirect after successful registration
+    setTimeout(function() {
+      alert('Registration successful! You can now login with your credentials.');
+      // Redirect to login page
+      window.location.href = 'login.html';
+    }, 1500);
+  });
+  
+  // Allow form submission with Enter key
+  document.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+      registerBtn.click();
+    }
+  });
+});
+</script>
+  </div>
+
+</body>
+</html>
